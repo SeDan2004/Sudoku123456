@@ -201,9 +201,35 @@ document.querySelector('.LevelSet').childNodes[i].hidden = true
 
 }
 
+function HandlerEnd() {
+
+console.log('Функция Сработала')
+
+for (i = 0; i <= TD_arr.length - 1; i++) {
+
+console.log('Цикл Работает')
+
+  if (TD_arr[i].innerText == "") {
+
+console.log('Условие Сработало')
+
+  alert('не все ячейки были заполнены')
+  return 
+
+}
+}
+
+}
+
 function Start_Game(){
 
 Start.addEventListener('click', Show_Square)
+
+document.querySelector('.End').addEventListener('click', () => {
+
+alert('1')
+
+})
 
 }
 

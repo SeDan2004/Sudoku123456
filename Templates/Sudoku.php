@@ -317,6 +317,8 @@ echo $_POST['login']
 
     <input type="button" value="Начать" hidden="true" id="Start">
 
+    <input type='button' value="Завершить" class='End'>
+
     <input type="button" value="Очистить" id="ClearButton">
 
 <select class="SetNumber">
