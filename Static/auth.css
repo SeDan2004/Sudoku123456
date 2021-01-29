@@ -1,3 +1,4 @@
+
 form {
 
 margin-top: 15%;
@@ -13,7 +14,7 @@ color: red;
 
 body {
 
-background-color: blue;
+ background-color: rgb(33, 218, 33);
 
 }
 
@@ -21,7 +22,7 @@ background-color: blue;
 
 position: relative;
 left: -11rem;
-top: 0.5rem;
-color: lime;
+top: -0.5rem;
+color: blue;
 
 }

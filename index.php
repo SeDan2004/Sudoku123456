@@ -1,25 +1,8 @@
 <?php
 
-/*require('Templates/reg.php');
-require('Scripts/Reg.php');
-
-if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['repeat_password'])) {
-
-if ($_POST['repeat_password'] != $_POST['password']) {
-
-var_dump('Пароли не совпадают');
-
-} else {
-
-$result = checkLogin($_POST['login'], $_POST['password']);
-
-};
-
-}; */
-
 // require('Templates/Sudoku.html');
 
-$is_true = false;
+ $is_true = false;
 
 require('Scripts/Auth.php');
 
@@ -37,7 +20,9 @@ require('Templates/Sudoku.php');
 
 require('Templates/Auth.php');
 
-}
+} 
+
+
 
 
 ?>

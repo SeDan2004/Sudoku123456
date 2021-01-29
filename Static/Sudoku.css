@@ -2,6 +2,21 @@ body{
     height: 100vh;
     max-width: 100vw;
 }
+
+.Game {
+
+margin-left: 1.5rem;
+
+}
+
+.CheckGame {
+
+position: relative;
+left: -9.8rem;
+top: -5.9rem;
+
+}
+
 .head {
 
 margin-left: 0px;
@@ -66,8 +81,9 @@ font-weight: 1000;
 }
 
 .LevelSet {
-    
-margin-left: 15px;    
+
+visibility: hidden;
+margin-left: 1.5rem;    
 margin-top: 15px;
 width: 123px;
 height: 19px;
@@ -117,10 +133,9 @@ border-bottom: 3px solid black;
 .SetNumber {
 
 position: relative;
-margin-left: 1000px;
+margin-left: 60rem;
 width: 123px;
 height: 19px;
-margin-top: 15px;
 visibility: hidden;
 
 }
@@ -128,7 +143,24 @@ visibility: hidden;
 .SayOk {
 
 visibility: hidden;
-margin-left: 1250px;
-margin-top: 5px;
+margin-left: 74rem;
+margin-top: 1%;
+
+}
+
+.End {
+
+margin-left: 1rem;
+margin-top: 1%;
+visibility: hidden;
+
+}
+
+.Save {
+
+position: relative;
+visibility: hidden;
+top: -1.5rem;
+margin-left: 1.5rem;
 
 }

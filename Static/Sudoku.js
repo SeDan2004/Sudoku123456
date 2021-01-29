@@ -4,11 +4,79 @@ var TD_arr = document.querySelectorAll('.little-col')
 var Easy_bool 
 var Medium_bool 
 var Hard_bool
+var Arr_Str_Clear_Numb = ''
+var UserName = document.querySelector('.message').innerText.substr(9)
 
 /* for (i=0 ; i < TD_arr.length ; i++){
 TD_arr[i].innerText = i
 } */
 
+
+function NewGameStart() {
+
+
+if (document.querySelector('.Game').value == 'Новая игра') {
+
+  document.querySelector('.floor').removeChild(document.querySelector('.Game'))
+  document.querySelector('.LevelSet').style.visibility = 'visible'
+  
+  } else if (document.querySelector('.Game').value == 'Сохранённые игры') {
+
+    sel = document.createElement('select')
+    opt = document.createElement('option')
+    opt.innerText = 'Выбрать игру'
+    opt.hidden = 'true'
+    sel.appendChild(opt)
+    sel.setAttribute('Class', 'CheckGame')
+    
+    
+    document.querySelector('.floor').removeChild(document.querySelector('.Game'))
+    document.querySelector('.floor').appendChild(sel)
+    
+
+    $.ajax({
+      type: 'POST',
+      url: '/Scripts/CheckGame.php',
+      data: {User: UserName},
+      success: function (Arg){
+
+select_sudoku = document.querySelector('.CheckGame')
+
+if (Arg == 0) {
+
+  opt = document.createElement('option')
+
+    opt.setAttribute('disabled', 'disabled')
+
+      opt.style.color = 'red'
+
+        opt.innerText = 'Сохранённых игр нету'
+                       
+          select_sudoku.appendChild(opt)
+
+            return null
+          
+} else {
+
+
+select_sudoku.addEventListener('click', GetSudokuInDirectory)
+
+
+      for (i = 1; i <= Arg; i++) {
+
+opt = document.createElement('option')
+opt.innerText = '' + i
+
+select_sudoku.appendChild(opt)
+
+      }
+      }
+      } 
+      })
+
+  }
+
+}
 
 function Level(){
 
@@ -69,6 +137,8 @@ if (document.querySelector('.LevelSet').value == 'Сложный') Hard()
 
 document.querySelector('.Tabl').style.visibility = 'visible'
 
+document.querySelector('.Save').style.visibility = 'visible'
+
 fillSudoku()
 
 Timer()
@@ -109,11 +179,15 @@ clear_number_start = 1
 
 }
 
+ Arr_Str_Clear_Numb = Arr_Str_Clear_Numb + ` ${clear_number}` + ` = ${TD_arr[clear_number].innerText},`
+
  TD_arr[clear_number].innerText = "" 
 
  clear_number_start++
 
 }
+Arr_Str_Clear_Numb = Arr_Str_Clear_Numb.substr(1, Arr_Str_Clear_Numb.length - 2)
+Arr_Str_Clear_Numb = Arr_Str_Clear_Numb.split(', ')
 }
 
 if (Medium_bool == true) {
@@ -150,11 +224,15 @@ document.querySelector('.LevelSet').childNodes[i].hidden = true
 
 }
 
+ Arr_Str_Clear_Numb = Arr_Str_Clear_Numb + ` ${clear_number}` + ` = ${TD_arr[clear_number].innerText},` 
+
  TD_arr[clear_number].innerText = "" 
 
  clear_number_start++
 
 }
+Arr_Str_Clear_Numb = Arr_Str_Clear_Numb.substr(1, Arr_Str_Clear_Numb.length - 2)
+Arr_Str_Clear_Numb = Arr_Str_Clear_Numb.split(', ')
 }
 
 if (Hard_bool == true) {
@@ -191,32 +269,15 @@ document.querySelector('.LevelSet').childNodes[i].hidden = true
 
 }
 
+ Arr_Str_Clear_Numb = Arr_Str_Clear_Numb + ` ${clear_number}` + ` = ${TD_arr[clear_number].innerText},`
+
  TD_arr[clear_number].innerText = "" 
 
  clear_number_start++
 
 }
-
-}
-
-}
-
-function HandlerEnd() {
-
-console.log('Функция Сработала')
-
-for (i = 0; i <= TD_arr.length - 1; i++) {
-
-console.log('Цикл Работает')
-
-  if (TD_arr[i].innerText == "") {
-
-console.log('Условие Сработало')
-
-  alert('не все ячейки были заполнены')
-  return 
-
-}
+Arr_Str_Clear_Numb = Arr_Str_Clear_Numb.substr(1, Arr_Str_Clear_Numb.length - 2)
+Arr_Str_Clear_Numb = Arr_Str_Clear_Numb.split(', ')
 }
 
 }
@@ -225,11 +286,7 @@ function Start_Game(){
 
 Start.addEventListener('click', Show_Square)
 
-document.querySelector('.End').addEventListener('click', () => {
-
-alert('1')
-
-})
+document.querySelector('.End').addEventListener('click', HandlerEnd)
 
 }
 
@@ -281,6 +338,7 @@ function HandlerSayOk(number) {
 let This_Ind_Block
 let This_Ind_Col
 
+
 //опредялем индекс ячейки в TD_arr (Переменная index)
 //ее блок (Переменная This_Ind_Block)
 //индекс ячейки в блоке (Переменная This_Ind_Col)
@@ -293,7 +351,6 @@ break
 }
 }
 
-
 //проверим сам блок
 index_start_block = This_Ind_Block * 9
 index_end_block = (This_Ind_Block+1) * 9 - 1
@@ -304,12 +361,16 @@ if (i == index){
 continue
 }
 
+if (HandlerSayOk.caller.caller != fillSudoku) CheckNumberUser(i)
+
 if (TD_arr[i].innerText == number){
 //ошибка , число стоит неправильно
 
 This_Col.style.color = 'red'
+console.log('Сработало')
 
 }
+
 }
 
 
@@ -334,12 +395,17 @@ m = 1
 
  while (m <= 3) {
 
-if (TD_arr[Vertical_Index_Start_Col + (Vertical_Index_Start_Block * 9)].innerText == number) This_Col.style.color = 'red'
+if (TD_arr[Vertical_Index_Start_Col + (Vertical_Index_Start_Block * 9)].innerText == number) {
+  
+  This_Col.style.color = 'red'
+  console.log('Сработало')
+
+}
 
   Vertical_Index_Start_Col += 3
+
   m++
  }
-
 
     Vertical_Index_Start_Col -= 9
     Vertical_Index_Start_Block += 3
@@ -361,8 +427,12 @@ m = 1
 
   while (m <= 3) {
 
-if (TD_arr[Vertical_Index_Start_Col + (Vertical_Index_Start_Block * 9)].innerText == number) This_Col.style.color = 'red'
+if (TD_arr[Vertical_Index_Start_Col + (Vertical_Index_Start_Block * 9)].innerText == number) {
+  
+  This_Col.style.color = 'red'
+  console.log('Сработало')
 
+}
     Vertical_Index_Start_Col += 3
     m++
   }
@@ -387,9 +457,13 @@ if (current_bloks_line == 2) {
   
    while (m <= 3) {
   
-  if (TD_arr[Vertical_Index_Start_Col + (Vertical_Index_Start_Block * 9)].innerText == number) This_Col.style.color = 'red'
-  
+  if (TD_arr[Vertical_Index_Start_Col + (Vertical_Index_Start_Block * 9)].innerText == number) {
+    
+    
+    This_Col.style.color = 'red'
+    console.log('Сработало')
 
+  }
     Vertical_Index_Start_Col += 3
     m++
    }
@@ -443,8 +517,12 @@ if (TD_arr[Gorizontal_Index_Start_Col + (Gorizontal_Index_Start_Block * 9)] == T
 
 if (Gorizontal_Index_Start_Col % 3 == 0 && Math.floor(Gorizontal_Index_Start_Col / 3) != current_line_in_block) break
 
-if (TD_arr[Gorizontal_Index_Start_Col + (Gorizontal_Index_Start_Block * 9)].innerText == number) This_Col.style.color = 'red'
+if (TD_arr[Gorizontal_Index_Start_Col + (Gorizontal_Index_Start_Block * 9)].innerText == number) {
+  
+  This_Col.style.color = 'red'
+  console.log('Сработало')
 
+}
 //console.log(TD_arr[Gorizontal_Index_Start_Col + (Gorizontal_Index_Start_Block * 9)])
 
 Gorizontal_Index_Start_Col++
@@ -461,7 +539,29 @@ m++
 Проверка блока
 */
 
+col = 0
 
+labelName: while (col <= TD_arr.length - 1) {
+
+    if (TD_arr[col].innerText == "") {
+
+      for (StartCol = col + 1; StartCol <= TD_arr.length - 1; StartCol++) {
+
+        if (TD_arr[StartCol].innerText == "") {
+
+          break labelName
+} 
+            if (TD_arr[StartCol].innerText != "" && StartCol == TD_arr.length - 1) {
+
+              document.querySelector('.End').style.visibility = 'visible'
+
+}
+
+}
+
+}
+  col += 1
+}
 
 This_Col.textContent = document.querySelector('.SetNumber').value
 document.querySelector('.SayOk').style.visibility = 'hidden'
@@ -563,29 +663,42 @@ function fillSudoku(){
 
 }
 
-function Timer() {
+function Timer(Clock) {
+
+  function Start_Timer() {
+
+    GiveTime.setSeconds(GiveTime.getSeconds() + 1);
+    GiveTimeString = GiveTime.toTimeString() + "";
+    GiveTimeString = GiveTimeString.substr(0, 8);
+    
+    
+    document.querySelector('.Timer_Start').innerText = `Время: ${GiveTimeString}`;
+    
+    }
+
+
+if (Timer.arguments.length != 0) {
+
+Clock = Clock.substr(Clock.indexOf("0"))
+Clock = Clock.split(':')
+
+GiveTime = new Date()
+GiveTime.setHours(Clock[0])
+GiveTime.setMinutes(Clock[1])
+GiveTime.setSeconds(Clock[2])
+
+setInterval(Start_Timer, 1000)
+
+} else {
 
 GiveTime = new Date();
 GiveTime.setSeconds(0);
 GiveTime.setMinutes(0);
 GiveTime.setHours(0);
 
-function Start_Timer() {
-
-GiveTime.setSeconds(GiveTime.getSeconds() + 1);
-GiveTimeString = GiveTime.toTimeString() + "";
-GiveTimeString = GiveTimeString.substr(0, 8);
-
-
-document.querySelector('.Timer_Start').innerText = `Время: ${GiveTimeString}`;
-/* document.querySelector('.Timer_Start').style.position = 'relative';
-document.querySelector('.Timer_Start').style.bottom = '-70px';
-document.querySelector('.Timer_Start').style.left = '1000px' */
-
-}
-
 setInterval(Start_Timer, 1000)
 
+}
 }
 
 function HandlerClearNumber () {
@@ -593,6 +706,7 @@ function HandlerClearNumber () {
 if (This_Col.style.color == 'red') {
 
 This_Col.innerText = ""
+This_Col.style.color = 'black'
 document.getElementById('ClearButton').style.visibility = 'hidden'
 This_Col.addEventListener('click', ShowColButton)
 
@@ -606,8 +720,160 @@ document.getElementById('ClearButton').addEventListener('click', HandlerClearNum
 
 }
 
+function CheckNumberUser(Argument) {
+
+
+  if (HandlerSayOk.caller.caller == fillSudoku) {
+  
+                return null
+
+}
+
+
+if (TD_arr[Argument].innerText != "") return null
+
+
+NumberUser = document.querySelector('.SetNumber').value
+
+  for (Start_Check = 0; Start_Check <= Arr_Str_Clear_Numb.length - 1; Start_Check++) {
+
+    if (Arr_Str_Clear_Numb[Start_Check][1] != " ") {
+
+      if (Argument == Arr_Str_Clear_Numb[Start_Check][0] + Arr_Str_Clear_Numb[Start_Check][1]
+
+         && Arr_Str_Clear_Numb[Start_Check].lastIndexOf(NumberUser) == 5
+         
+         ) {
+
+if (This_Col != TD_arr[Argument]) {
+  
+This_Col.style.color = 'red' 
+console.log('Сработало')
+
+}
+
+      } 
+} else {
+
+if (Argument == Arr_Str_Clear_Numb[Start_Check][0] && Arr_Str_Clear_Numb[Start_Check].lastIndexOf(NumberUser) == 4) {
+
+console.log('Условие прошло')
+
+  if (This_Col != TD_arr[Argument]){
+
+This_Col.style.color = 'red'
+console.log('Сработало')
+
+}
+}
+}
+}
+}
+
+function HandlerEnd() {
+
+i = 0
+
+  while (i < Arr_Str_Clear_Numb.length - 1) {
+
+    if (Arr_Str_Clear_Numb[i].charAt(1) != " ") {
+
+This_Col = TD_arr[Arr_Str_Clear_Numb[i].slice(0, 2)]
+
+
+      if(This_Col.innerText != Arr_Str_Clear_Numb[i][5]) This_Col.style.color = 'red'
+
+      if (This_Col.style.color == 'red') {
+      alert('Были найдены ошибки')
+      return null
+}
+} else {
+
+This_Col = TD_arr[Arr_Str_Clear_Numb[i].slice(0, 1)]
+
+      if (This_Col.innerText != Arr_Str_Clear_Numb[i][4]) This_Col.style.color = 'red'
+
+      if (This_Col.style.color == 'red') { 
+      alert('Были найдены ошибки')
+      return null
+}
+}
+
+i++
+}
+
+alert('ПОЗДРАВЛЯЕМ, ИГРА УСПЕШНО ПРОЙДЕНА!!!')
+
+}
+
+function HandlerSend() {
+
+Send_arr = []
+
+currentTime = document.querySelector('.Timer_Start').innerText
+
+for (i = 0; i <= TD_arr.length - 1; i++) {
+
+Send_arr.push(TD_arr[i].innerText)
+
+}
+
+$.ajax({
+  type: "POST",
+  url: '/Scripts/Save.php',
+  data: {KeySudoku: Send_arr, User: UserName, Time: currentTime},
+  success: function (Respond) { console.log(Respond) },
+})
+
+
+
+}
+
+function Send_Number() {
+
+document.querySelector('.Save').addEventListener('click', HandlerSend)
+
+}
+
+function GetSudokuInDirectory() {
+
+if (event.target.value != 'Выбрать игру') {
+
+$.ajax({
+type: 'POST',
+url: '/Scripts/CheckSudokuGame.php',
+data: {SudokuNumber: event.target.value, User: UserName},
+success: function (ArrCol) {
+
+currentClock = ' ' + ArrCol.substr(ArrCol.indexOf('В'))
+
+ArrCol = ArrCol.replace(currentClock, '')
+
+
+ ArrCol = eval(ArrCol)
+
+i = 0
+
+  while (i < ArrCol.length) {
+        
+    TD_arr[i].innerText = ArrCol[i]
+
+i++
+}
+
+document.querySelector('.Tabl').style.visibility = 'visible'
+Timer(currentClock)
+       
+}
+})
+
+}
+}
+
+Send_Number()
 Clear()
 Start_Game()
 ClickOnSetNumber()
 ClickOnSayOk()
 GetAllCol()
+

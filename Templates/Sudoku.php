@@ -15,7 +15,7 @@
 
 <?php 
 
-echo $_POST['login']
+echo $_POST['login'];
 
 ?>
 
@@ -308,6 +308,15 @@ echo $_POST['login']
   </div>
 
 <div class="floor">
+
+<select class='Game' onclick='NewGameStart()'>
+
+<option hidden='true'>Выбрать игру</option>
+<option>Новая игра</option>
+<option>Сохранённые игры</option>
+
+</select>
+
 <select onclick="Level()" class="LevelSet">
     <option hidden="true">Выбрать Режим</option>
     <option class="easy">Лёгкий</option>
@@ -315,7 +324,7 @@ echo $_POST['login']
     <option class="hard">Сложный</option>
 </select>
 
-    <input type="button" value="Начать" hidden="true" id="Start">
+    <input type="button" value="Начать" hidden="true" id="Start"><br>
 
     <input type='button' value="Завершить" class='End'>
 
@@ -337,6 +346,8 @@ echo $_POST['login']
 </select><br>
 
 <input type="button" value="Подтвердить" class="SayOk">
+
+<input type=button value='Сохранить изменения' class='Save'>
 
 </div>
 <script
