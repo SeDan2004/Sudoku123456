@@ -1,28 +1,31 @@
 <?php 
 
-function checkLogin ($login, $pass) {
+function Checklogin($login, $pass) {
 
-$CreateUserFile = 'Database/Username/' . $login;
-mkdir($CreateUserFile);
-$SudokuGame = 'Database/Username/' . $login . '/' . 'User_Game';
-mkdir($SudokuGame);
+    $CreateUserFile = 'Database/Username/' . $login;
+    mkdir($CreateUserFile);
+    $SudokuGame = 'Database/Username/' . $login . '/' . 'User_Game';
+    mkdir($SudokuGame);
+    
+    
+    $name = 'Database/Username/' . $login . '/' . $login . '.txt';
 
+    $data = json_encode(['password' => $pass, 'role' => 'User', 'sudoku_count' => 0]);
+    
+    if (file_exists($name) == false) {
+    
+    $f = fopen($name, 'w');
+    fwrite($f, $data);
+    fclose($f);
+    return true;
+    
+    } else {
+    
+    var_dump('Пользователь '. $login . ' уже существует');
+    
+    };
+    
+    };
 
-$name = 'Database/Username/' . $login . '/' . $login . '.txt';
-
-if (file_exists($name) == false) {
-
-$f = fopen($name, 'w');
-$password = fwrite($f, $pass);
-fclose($f);
-return true;
-
-} else {
-
-var_dump('Пользователь '. $login . ' уже существует');
-
-};
-
-};
 
 ?>

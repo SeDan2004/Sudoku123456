@@ -15,7 +15,6 @@ var_dump('Пароли не совпадают');
 
 $result = checkLogin($_POST['login'], $_POST['password']);
 
-
 };
 
 
