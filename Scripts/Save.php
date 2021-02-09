@@ -40,8 +40,6 @@ $f = fopen($name, 'r');
      $ObjUserData -> sudoku_count++;
      $ObjUserData = json_encode($ObjUserData);
 
-$f = fopen($name, 'w');
-     fclose($f);
 
 $f = fopen($name, 'w');
      fwrite($f, $ObjUserData);

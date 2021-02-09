@@ -39,17 +39,28 @@ $arrUser = scandir($strdir);
 
   array_shift($arrUser); array_shift($arrUser);
 
+$Response = [];
 
-for ($i = 0; $i < count($arrUser); $i++) {
+ for ($i = 0; $i < count($arrUser); $i++) {
 
-    $Userdir = scandir($strdir . $arrUser[$i] . '/');
+    $Userdir = fopen($strdir . $arrUser[$i] . '/' . $arrUser[$i] . '.txt', 'r');
+               $fileRead = fread($Userdir, filesize($strdir . $arrUser[$i] . '/' . $arrUser[$i] . '.txt'));
+               fclose($Userdir);
 
-    array_shift($Userdir); array_shift($Userdir);
+               $ObjUser = json_decode($fileRead);
+               if ($ObjUser -> role = 'Admin') continue; 
+               array_push($Response, $ObjUser);
+               
+               
+ }
     
-    $m = 0;
+return $Response;
+
+//    $m = 0;
 
 
-while ($m < count($Userdir)) {
+
+/* while ($m < count($Userdir)) {
 
     $current_File_Or_Dir = $strdir . $arrUser[$i] . '/' . $Userdir[$m];
 
@@ -80,15 +91,14 @@ while ($m < count($Userdir)) {
 
     $m++;
 
- }
+ } */ 
     
 
- } 
+  
 
  };
 
-CheckDataUser()
-
+ 
 /*for ($i = 0; $i < count($result); $i++) {
 
 echo "<li>" . $result[$i] . "</li>";
