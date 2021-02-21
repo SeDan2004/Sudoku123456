@@ -12,7 +12,7 @@ $DataUser = CheckDataUser();
 <title>Document</title>
 <link rel='stylesheet' href='/Static/Admin.css'></link>
 </head>
-<body background='https://i.pinimg.com/originals/19/d8/2d/19d82d3d407a5ae0aee06d495b69ad5c.jpg'>
+<body>
 
 <p class='AdminOrModerInPanel'><?php var_dump($is_true[1])?></p>
 

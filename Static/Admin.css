@@ -3,7 +3,10 @@ body {
     background-color: black;
     margin-left: 0;
     margin-right: 0;
-
+    background: url('https://i.pinimg.com/originals/19/d8/2d/19d82d3d407a5ae0aee06d495b69ad5c.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
     
     }
     
