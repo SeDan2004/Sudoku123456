@@ -7,10 +7,8 @@
 require('Scripts/Auth.php');
 
 if (isset($_POST['login'])){
-var_dump($_POST);
-$is_true = checkPassword($_POST['login'] , $_POST['password']);
 
-var_dump($is_true);
+$is_true = checkPassword($_POST['login'] , $_POST['password']);
 
 } 
 
@@ -22,15 +20,15 @@ require('Templates/Sudoku.php');
 
 }
 
-if ($is_true[1] == 'Admin') {
+if ($is_true[1] == 'Admin' || $is_true[1] == 'Moderator') {
 
-require('Scripts/Admin.php');
+require('Templates/Admin2.php');
 
 }
 
 } else {
 
-require('Templates/Auth.php');
+require('Templates/auth.php');
 
 } 
 

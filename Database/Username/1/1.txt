@@ -1,1 +1,1 @@
-{"password":"5","role":"User","sudoku_count":1}
+{"password":"5","role":"Moderator","sudoku_count":1}

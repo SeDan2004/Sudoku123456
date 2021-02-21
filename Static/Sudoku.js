@@ -876,4 +876,3 @@ Start_Game()
 ClickOnSetNumber()
 ClickOnSayOk()
 GetAllCol()
-
